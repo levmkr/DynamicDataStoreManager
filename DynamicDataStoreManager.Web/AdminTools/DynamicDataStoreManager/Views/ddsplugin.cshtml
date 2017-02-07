@@ -1,0 +1,60 @@
+﻿@inherits System.Web.Mvc.WebViewPage
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Dynamic Data Store Manager</title>
+    <link href="~/AdminTools/DynamicDataStoreManager/Static/output/app.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="dds">
+        <stores-template></stores-template>
+    </div>
+
+    @*<div class="less">
+            <div>
+                The text fades out at the bottom and has a "More..." link. Text fade out is nothing new around here. I've had a demo up for that for ages, which uses a transparent PNG file placed overtop the text. But since this is a slightly different idea and the times-are-a-changin' and we can get a bit more progressive with this idea.
+                Let's assume these small boxes of text are used in a sidebar, so our HTML markup will be a div with class of sidebar-box. This div can contain any number of paragraph elements, the last of which will have a class name of read-more which contains a link button.
+                I had some head-scratchers going on trying to figure out a weird problem using CSS3 gradients and fading from "transparent" to a regular hex color. It seemed like the color was multiplying onto the background. What is actually happening is that the word "transparent" is actually just mapped to "rgba(0, 0, 0, 0)" which means "fully transparent black." So when the gradient is built, the intermediary colors are mixed with not-quite-totally transparent black. To fix this, you'll need to use RGBa colors in both the start and fade to color, even if it's fully transparent. For example, for red to fade from red to transparent:
+            </div>
+            <p class="more-link"><a href="#" class="button">More</a></p>
+        </div>*@
+
+
+
+    <script type="text/x-template" id="stores-template">
+        <ul>
+            <li v-for="store in stores">
+                <span v-on:click="toggleMappingsTable(store)">{{ store.Name }}</span>
+                <items-template :mappings="mappings" :data="currentStoreData" :currentStoreName="store.Name" v-if="showMappings === store.Name"></items-template>
+            </li>
+        </ul>
+    </script>
+
+    <script type="text/x-template" id="items-template">
+        <table>
+            <thead>
+                <tr>
+                    <th v-for="mapping in mappings">{{ mapping }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(items, itemsIndex) in data">
+                    <item-template v-for="(value, key, index) in items" :value="value" :mapping="key" :currentIndex="itemsIndex" :currentStoreName="currentStoreName"></item-template>
+                </tr>
+            </tbody>
+        </table>
+    </script>
+
+    <script type="text/x-template" id="item-template">
+        <td v-if="mapping === 'action'"><button v-on:click="deleteItem(value)" class="button">Delete</button></td>
+        <td v-else>{{ value }}</td>
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="~/AdminTools/DynamicDataStoreManager/Static/javascript/app.js"></script>
+
+</body>
+</html>

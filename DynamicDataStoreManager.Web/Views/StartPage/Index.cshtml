@@ -1,0 +1,36 @@
+﻿@model DynamicDataStoreManager.Web.Models.ViewModels.PageViewModel<DynamicDataStoreManager.Web.Models.Pages.StartPage>
+
+@*@Html.ActionLink("Generate test data", "CreateTestData")*@
+
+<div id="dds">
+    <stores-template></stores-template> 
+</div>
+
+<script type="text/x-template" id="stores-template">
+    <ul>
+        <li v-for="store in stores">
+            <span v-on:click="toggleMappingsTable(store)">{{ store.Name }}</span>
+            <mappings-template :mappings="mappings" :data="currentStoreData" v-if="showMappings == store.Name"></mappings-template>
+        </li>
+    </ul>
+</script>
+
+<script type="text/x-template" id="mappings-template">
+    <table>
+        <thead>
+            <tr>
+                <th v-for="mapping in mappings">{{ mapping }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="items in data">
+                <td v-for="(value, key) in items">{{ value }}</td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script src="~/Static/js/app.js"></script>
